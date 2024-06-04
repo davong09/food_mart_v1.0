@@ -107,6 +107,9 @@ app.post('/register', (req, res) => {
     // 사용자가 입력한 데이터 추출
     const id = req.body.id; // id 데이터 추출
     const pwd = req.body.password; // password 데이터 추출
+    const name = req.body.name; // name 데이터 추출
+    const phone = req.body.phone; // phone 데이터 추출
+    const email = req.body.email; // email 데이터 추출
 
     // 기존 사용자 데이터와 중복되는지 확인
     // 사용자가 입력한 아이디(id)가 기존 사용자 데이터(users)에 있는지 확인한다.
@@ -117,7 +120,7 @@ app.post('/register', (req, res) => {
         res.send('<script>alert("이미 존재하는 아이디입니다."); window.history.back();</script>');
     }else{
         // 사용자 자바스크립트 객체 생성[객체 리터럴 방식]
-        const user = { id:id, password: pwd }; // 저장할 유저 객체 한개 생성
+        const user = { id:id, password: pwd, name: name, phone: phone, email: email }; // 저장할 유저 객체 한개 생성
         
         // 사용자 데이터를 users 배열에 추가
         users.push(user);
