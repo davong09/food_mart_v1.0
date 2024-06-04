@@ -159,8 +159,71 @@
       "category_id": 3,
       "price": 1500,
       "unit_cost": 1200,
-      "stock_date": "2023-06-0",
+      "stock_date": "2023-06-04",
       "image": "./images/food18.png"
-    }             
+    },    
+    {
+      "product_id": 19,
+      "name": "치즈",
+      "category_id": 4,
+      "price": 1000,
+      "unit_cost": 1200,
+      "stock_date": "2023-06-06",
+      "image": "./images/food19.png"
+    },
+    {
+      "product_id": 20,
+      "name": "우유",
+      "category_id": 4,
+      "price": 1000,
+      "unit_cost": 1200,
+      "stock_date": "2023-06-06",
+      "image": "./images/food20.png"
+    },
+    {
+      "product_id": 21,
+      "name": "요거트",
+      "category_id": 4,
+      "price": 1000,
+      "unit_cost": 1200,
+      "stock_date": "2023-06-06",
+      "image": "./images/food21.png"
+    },
+    {
+      "product_id": 22,
+      "name": "요구르트",
+      "category_id": 4,
+      "price": 500,
+      "unit_cost": 1200,
+      "stock_date": "2023-06-06",
+      "image": "./images/food22.png"
+    },
+    {
+      "product_id": 23,
+      "name": "버터",
+      "category_id": 4,
+      "price": 1400,
+      "unit_cost": 1200,
+      "stock_date": "2023-06-02",
+      "image": "./images/food23.png"
+    },
+    {
+      "product_id": 24,
+      "name": "아이스크림",
+      "category_id": 4,
+      "price": 500,
+      "unit_cost": 1200,
+      "stock_date": "2023-06-06",
+      "image": "./images/food24.png"
+    },
+    {
+      "product_id": 25,
+      "name": "김태훈",
+      "category_id": 5,
+      "price": 90000,
+      "unit_cost": 1200,
+      "stock_date": "1999-05-08",
+      "image": "./images/food25.png"
+    }         
   ]
-}
+}         
