@@ -104,7 +104,7 @@ main {
     gap: 10px;
 }
 
-.btn-cart, .btn-order {
+.btn-cart, .btn-order, .btn-list {
     padding: 10px 20px;
     border: none;
     background-color: #007bff;

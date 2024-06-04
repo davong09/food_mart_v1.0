@@ -1,0 +1,18 @@
+{
+    "reviews": [
+      {
+        "productName": "사과",
+        "user": "사용자1",
+        "review": "맛있어요",
+        "rating": 5
+      },
+
+      {
+        "productName": "바나나",
+        "user": "사용자2",
+        "review": "신선해요",
+        "rating": 4
+      }
+    ]
+  }
+  

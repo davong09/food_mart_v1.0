@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>리뷰 표시</title>
+  <link rel="stylesheet" href="./css/style-productReview.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="header">
+  <div class="header-content">
+    <div class="logo">
+      <a href="index.html">
+        <img src="./images/logo1.png" alt="Logo" />
+        <h2>식자재</h2>
+      </a>
+    </div>
+    <nav class="menu">
+      <ul>
+        <li><a href="productList.html?category_id=1">과일채소</a></li>
+        <li><a href="productList.html?category_id=2">축산</a></li>
+        <li><a href="productList.html?category_id=3">수산</a></li>
+        <li><a href="productList.html?category_id=4">유제품</a></li>
+        <li><a href="productList.html?category_id=5">할인상품</a></li>
+      </ul>
+    </nav>
+    <div class="social-icons">
+      <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+      <a href="/register" title="Twitter">회원가입</a>
+      <a href="/login" title="Twitter">로그인</a>
+    </div>
+  </div>
+</header>
+
+  <div id="reviewContainer"></div>
+
+  <h2>리뷰 추가</h2>
+  <form id="reviewForm" action="/review" method="post">
+    <label for="productName">제품 이름:</label>
+    <input type="text" id="productName" name="productName" required>
+    <label for="user">작성자:</label>
+    <input type="text" id="user" name="user" required>
+    <label for="review">리뷰:</label>
+    <textarea id="review" name="review" required></textarea>
+    <label for="rating">평점:</label>
+    <input type="number" id="rating" name="rating" min="1" max="5" required>
+    <button type="submit">리뷰 추가</button>
+  </form>
+
+  <script>
+    const reviewContainer = document.getElementById("reviewContainer");
+
+    // Provided product data
+    const products = [
+      { "product_id": 1, "name": "사과", "category_id": 1, "price": 1000, "unit_cost": 800, "stock_date": "2023-06-01", "image": "./images/food01.png" },
+      { "product_id": 2, "name": "오렌지", "category_id": 1, "price": 2000, "unit_cost": 1500, "stock_date": "2023-06-02", "image": "./images/food02.png" },
+      // 나머지 제품 데이터는 생략
+    ];
+
+    let reviews = [];
+
+    function fetchReviews() {
+      fetch('/reviewData.json')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+          return response.json();
+        })
+        .then(data => {
+          // 데이터 구조 확인
+          if (data && Array.isArray(data.reviews)) {
+            reviews = data.reviews;
+          } else {
+            reviews = [];
+            console.error('Invalid data format:', data);
+          }
+          displayReviews();
+        })
+        .catch(error => {
+          console.error('There was a problem with your fetch operation:', error);
+        });
+    }
+
+    function displayReviews() {
+      reviewContainer.innerHTML = "";
+      if (Array.isArray(reviews)) {
+        reviews.forEach(review => {
+          const reviewElement = document.createElement("div");
+          reviewElement.classList.add("review-item");
+          reviewElement.innerHTML = `
+            <h4>${review.productName}</h4>
+            <p>작성자: ${review.user}</p>
+            <p>리뷰: ${review.review}</p>
+            <p>평점: ${review.rating} / 5</p>
+          `;
+          reviewContainer.appendChild(reviewElement);
+        });
+      }
+    }
+
+    document.getElementById('reviewForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const productName = document.getElementById('productName').value;
+      const user = document.getElementById('user').value;
+      const reviewText = document.getElementById('review').value;
+      const rating = parseInt(document.getElementById('rating').value);
+
+      const newReview = { productName, user, review: reviewText, rating };
+
+      reviews.push(newReview);
+      displayReviews();
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchReviews();
+    });
+  </script>
+</body>
+</html>
