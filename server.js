@@ -81,6 +81,7 @@ app.post('/login', (req, res) => {
     const user = users.find(user => user.id === id && user.password === pwd);
 
     if(user) { // id와 pwd가 일치하면
+        res.send('<script>alert("로그인 성공"); window.location.href="index.html";</script>'); // 로그인 성공
         res.redirect('/'); // 2.2. 로그인 성공 시 메인 페이지로 이동
     } else { // id와 pwd가 일치하지 않으면
         // 2.3. 로그인 실패 메시지를 응답으로 전송한다.
