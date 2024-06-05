@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항 내용</title>
+    <link rel="stylesheet" href="./css/style-view.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+          <div class="logo">
+            <a href="index.html">
+              <img src="./images/logo1.png" alt="Logo" />
+              <h2>식자재</h2>
+            </a>
+          </div>
+          <nav class="menu">
+            <ul>
+              <li><a href="productList.html?category_id=1">과일채소</a></li>
+              <li><a href="productList.html?category_id=2">축산</a></li>
+              <li><a href="productList.html?category_id=3">수산</a></li>
+              <li><a href="productList.html?category_id=4">유제품</a></li>
+              <li><a href="productList.html?category_id=5">할인상품</a></li>
+            </ul>
+          </nav>
+          <div class="social-icons">
+            <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" title="register">회원가입</a>
+            <a href="#" title="login">로그인</a>
+            <a href="#" title="LinkedIn">관리자</a>
+          </div>
+        </div>
+    </header>
+    <section class="notice-content">
+        <div class="container">
+            <h3>공지사항 내용</h3>
+            <div id="notice-content">
+                <!-- 공지사항 내용이 여기에 표시됩니다 -->
+            </div>
+        </div>
+    </section>
+
+    <script>
+      // URL의 쿼리스트링에서 notice_id 가져오기
+      const urlParams = new URLSearchParams(window.location.search);
+      const noticeId = parseInt(urlParams.get("notice_id"), 10);
+
+      // 페이지 로드 시 공지사항 내용 표시
+      window.onload = function () {
+          loadNoticeContent("noticeData.json");
+      };
+
+      // JSON 파일에서 공지사항 데이터를 읽어들이기
+      function loadNoticeContent(filePath) {
+          fetch(filePath)
+              .then(response => response.json())
+              .then(data => {
+                  const notices = data.notices; // notices 배열 가져오기
+                  const currentNotice = notices.find(notice => notice.notice_id === noticeId); // notice_id에 해당하는 공지사항 찾기
+
+                  if (currentNotice) {
+                      const noticeContent = document.getElementById("notice-content");
+                      const title = document.createElement("h4");
+                      title.textContent = currentNotice.title; // 공지사항 제목 표시
+                      noticeContent.appendChild(title);
+
+                      const date = document.createElement("p");
+                      date.textContent = "등록일: " + currentNotice.date; // 공지사항 등록일 표시
+                      noticeContent.appendChild(date);
+
+                      const content = document.createElement("p");
+                      content.textContent = currentNotice.content; // 공지사항 내용 표시
+                      noticeContent.appendChild(content);
+                  } else {
+                      const noticeContent = document.getElementById("notice-content");
+                      const errorMessage = document.createElement("p");
+                      errorMessage.textContent = "해당 공지사항을 찾을 수 없습니다."; // 공지사항이 없을 때 메시지 표시
+                      noticeContent.appendChild(errorMessage);
+                  }
+              })
+              .catch(error => console.error("Error:", error));
+      }
+  </script>
+</body>
+</html>
+</body>
+</html>

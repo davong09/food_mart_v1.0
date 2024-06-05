@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항</title>
+    <link rel="stylesheet" href="./css/style-notice.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+          <div class="logo">
+            <a href="index.html">
+              <img src="./images/logo1.png" alt="Logo" />
+              <h2>식자재</h2>
+            </a>
+          </div>
+          <nav class="menu">
+            <ul>
+              <li><a href="productList.html?category_id=1">과일채소</a></li>
+              <li><a href="productList.html?category_id=2">축산</a></li>
+              <li><a href="productList.html?category_id=3">수산</a></li>
+              <li><a href="productList.html?category_id=4">유제품</a></li>
+              <li><a href="productList.html?category_id=5">할인상품</a></li>
+            </ul>
+          </nav>
+          <div class="social-icons">
+            <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" title="register">회원가입</a>
+            <a href="#" title="login">로그인</a>
+            <a href="#" title="LinkedIn">관리자</a>
+          </div>
+        </div>
+      </header>
+    <section class="notice">
+        <div class="page-title">
+            <div class="container">
+                <h3>공지사항</h3>
+            </div>
+        </div>
+
+        <!-- board search area -->
+        <div id="board-search">
+            <div class="container">
+                <div class="search-window">
+                    <form action="">
+                        <div class="search-wrap">
+                            <label for="search" class="blind">공지사항 내용 검색</label>
+                            <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="">
+                            <button type="submit" class="btn btn-dark">검색</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- board list area -->
+        <div id="board-list">
+            <div class="container">
+                <table class="board-table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="th-num">번호</th>
+                            <th scope="col" class="th-title">제목</th>
+                            <th scope="col" class="th-date">등록일</th>
+                        </tr>
+                    </thead>
+                    <tbody id="notice-list">
+                        <!-- 공지사항 항목이 여기에 추가됩니다 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // URL의 쿼리스트링에서 notice_id 가져오기
+        const urlParams = new URLSearchParams(window.location.search);
+        const noticeId = parseInt(urlParams.get("notice_id"), 10);
+    
+        // JSON 파일에서 공지사항 데이터를 읽어들이기
+        function loadNoticesFromFile(filePath) {
+            const reader = new FileReader();
+    
+            // 파일을 읽어들인 후 실행되는 함수
+            reader.onload = function (event) {
+                const result = event.target.result;
+                const data = JSON.parse(result); // data : 자바스크립트 객체
+                const notices = data.notices; // notices 배열 가져오기
+                const noticeList = document.getElementById("notice-list");
+    
+                // 공지사항 항목을 동적으로 생성하여 목록에 추가
+                notices.forEach((notice, index) => {
+                    if (!noticeId || notice.notice_id === noticeId) {
+                        const row = document.createElement("tr");
+    
+                        const numCell = document.createElement("td");
+                        numCell.textContent = index + 1;
+                        row.appendChild(numCell);
+    
+                        const titleCell = document.createElement("th");
+                        const titleLink = document.createElement("a");
+                        titleLink.href = `view.html?notice_id=${notice.notice_id}`; // notice_id 쿼리스트링 추가
+                        titleLink.textContent = notice.title;
+                        titleLink.addEventListener("click", function(event) {
+                            event.preventDefault(); // 기본 동작 방지
+                            showNoticeContent(notice); // 클릭한 공지사항의 내용 표시
+                        });
+                        titleCell.appendChild(titleLink);
+                        row.appendChild(titleCell);
+    
+                        const dateCell = document.createElement("td");
+                        dateCell.textContent = notice.date;
+                        row.appendChild(dateCell);
+    
+                        noticeList.appendChild(row);
+                    }
+                });
+            };
+    
+            fetch(filePath)
+                .then((response) => response.blob())
+                .then((blob) => {
+                    reader.readAsText(blob);
+                })
+                .catch((error) => console.error("Error:", error));
+        }
+    
+        // 페이지 로드 시 공지사항 데이터를 가져오기
+        window.onload = function () {
+            loadNoticesFromFile("noticeData.json");
+        };
+    
+        // 클릭한 공지사항의 내용을 표시하는 함수
+        function showNoticeContent(notice) {
+            localStorage.setItem("currentNotice", JSON.stringify(notice)); // 클릭한 공지사항 정보를 로컬 스토리지에 저장
+            window.location.href = `view.html?notice_id=${notice.notice_id}`; // notice_id 쿼리스트링 추가하여 view.html 페이지로 이동
+        }
+    </script>
+</body>
+</html>
+</body>
+</html>
